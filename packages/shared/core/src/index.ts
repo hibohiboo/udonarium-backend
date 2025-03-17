@@ -75,5 +75,5 @@ function isAllowedOrigin(requestOrigin: string = '', allowedOrigins: string[] | 
   const canonicalOrigin = `${requestOrigin}//`;
   const origins = typeof allowedOrigins === 'string' ? [allowedOrigins] : allowedOrigins;
   // 完全修飾ドメインによる厳格な比較ではないので注意
-  return !!origins.find(origin => origin == '*' || canonicalOrigin.startsWith(`${origin}/`));
+  return origins.some(origin => origin == '*' || canonicalOrigin.startsWith(`${origin}/`));
 }
