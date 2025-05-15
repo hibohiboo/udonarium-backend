@@ -13,6 +13,7 @@ const bundling = {
 interface Props extends core.StackProps {
   projectId: string;
   ssmLambdaLayerKey: string;
+  environment: Record<string, string>;
 }
 const HANDLER_DIR = `${TARGET_APP_DIRECTORY}/src`;
 
@@ -23,7 +24,7 @@ export class UdonariumBackendStack extends core.Stack {
 
     const defaultLambdaProps = this.createLambdaProps({
       ssmKeyForLambdaLayerArn: props.ssmLambdaLayerKey,
-      environment: {  },
+      environment: props.environment,
       timeoutSec: 5, // 外部エンドポイントを経由してJSONを処理するため3秒では足りない
     });
 

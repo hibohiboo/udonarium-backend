@@ -10,6 +10,10 @@ dotenv.config({ path: './.env.local' });
 const envList = [
   'PROJECT_ID',
   'SSM_PARAM_KEY_LAYER_VERSIONS_ARN',
+  'SKYWAY_APP_ID',
+  'SKYWAY_SECRET',
+  'SKYWAY_UDONARIUM_LOBBY_SIZE',
+  'ACCESS_CONTROL_ALLOW_ORIGIN',
 ] as const;
 for (const key of envList) {
   if (!process.env[key]) throw new Error(`please add ${key} to .env`);
@@ -22,8 +26,14 @@ const env = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-new UdonariumBackendStack(app, `${processEnv.PROJECT_ID}-KartaGraphRESTAPIStack`, {
+new UdonariumBackendStack(app, `${processEnv.PROJECT_ID}-UdonariumBackendStack`, {
   ssmLambdaLayerKey: `${processEnv.SSM_PARAM_KEY_LAYER_VERSIONS_ARN}-${processEnv.PROJECT_ID}`,
   env,
   projectId: processEnv.PROJECT_ID,
+  environment: {
+    SKYWAY_APP_ID: processEnv.SKYWAY_APP_ID,
+    SKYWAY_SECRET: processEnv.SKYWAY_SECRET,
+    SKYWAY_UDONARIUM_LOBBY_SIZE: processEnv.SKYWAY_UDONARIUM_LOBBY_SIZE,
+    ACCESS_CONTROL_ALLOW_ORIGIN: processEnv.ACCESS_CONTROL_ALLOW_ORIGIN,
+  },
 });
