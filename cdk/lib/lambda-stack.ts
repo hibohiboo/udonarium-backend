@@ -16,7 +16,7 @@ interface Props extends core.StackProps {
 }
 const HANDLER_DIR = `${TARGET_APP_DIRECTORY}/src`;
 
-export class KartaGraphRESTAPIStack extends core.Stack {
+export class UdonariumBackendStack extends core.Stack {
 
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props);
