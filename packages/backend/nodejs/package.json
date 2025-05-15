@@ -1,6 +1,6 @@
 {
   "name": "@udonarium-backend/nodejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "dev": "tsx watch --env-file=.env --env-file=.env.local src/index.ts"
   },
   "dependencies": {
+    "@udonarium-backend/core": "^1.0.1",
     "@hono/node-server": "^1.12.2"
   },
   "devDependencies": {

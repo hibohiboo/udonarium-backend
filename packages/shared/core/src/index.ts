@@ -54,18 +54,18 @@ export function routing(app: Hono) {
 
     try {
       param = await c.req.json<TokenRequestParam>();
+      const token = await SkyWayAuthToken.create(
+        `${SKYWAY_APP_ID}`,
+        `${SKYWAY_SECRET}`,
+        SKYWAY_UDONARIUM_LOBBY_SIZE ?? 3,
+        `${param.channelName}`,
+        `${param.peerId}`
+      );
+
+      return c.json({ token: token });
     } catch {
       return c.text('Bad Request', 400);
     }
-
-    const token = await SkyWayAuthToken.create(
-      `${SKYWAY_APP_ID}`,
-      `${SKYWAY_SECRET}`,
-      SKYWAY_UDONARIUM_LOBBY_SIZE ?? 3,
-      `${param.channelName}`,
-      `${param.peerId}`);
-
-    return c.json({ token: token });
   });
 
   return app;
@@ -75,5 +75,5 @@ function isAllowedOrigin(requestOrigin: string = '', allowedOrigins: string[] | 
   const canonicalOrigin = `${requestOrigin}//`;
   const origins = typeof allowedOrigins === 'string' ? [allowedOrigins] : allowedOrigins;
   // 完全修飾ドメインによる厳格な比較ではないので注意
-  return !!origins.find(origin => origin == '*' || canonicalOrigin.startsWith(`${origin}/`));
+  return origins.some(origin => origin == '*' || canonicalOrigin.startsWith(`${origin}/`));
 }
