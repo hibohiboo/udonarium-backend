@@ -3,6 +3,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { RUNTIME_VERSION } from '../constants/lambda';
+import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 
 interface Props extends core.StackProps {
   projectId: string;
@@ -20,7 +21,7 @@ export class UdonariumBackendStack extends core.Stack {
       timeoutSec: 5, // 外部エンドポイントを経由してJSONを処理するため3秒では足りない
     });
 
-    this.createLambda(
+    const fn = this.createLambda(
       {
         ...defaultLambdaProps,
         description: 'udonarium key',
@@ -28,6 +29,12 @@ export class UdonariumBackendStack extends core.Stack {
       },
       'udonarium-backend'
     );
+    const fnUrl = fn.addFunctionUrl({
+      authType: FunctionUrlAuthType.NONE,
+    })
+    new core.CfnOutput(this, 'lambdaUrl', {
+      value: fnUrl.url!
+    })
   }
 
 
