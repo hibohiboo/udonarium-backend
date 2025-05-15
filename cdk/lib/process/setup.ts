@@ -6,15 +6,16 @@ import * as fs from 'fs-extra';
 const nodeModulesPath = './bundle-node_modules';
 export const NODE_LAMBDA_LAYER_DIR = path.resolve(process.cwd(), nodeModulesPath);
 
+const targetAppDirectory = '../packages/backend/aws-lambda';
 const NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME = `nodejs`;
 const runtimeDirName = path.resolve(process.cwd(), `${nodeModulesPath}/${NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME}`);
 const distFilePath = (file: string) => path.resolve(process.cwd(), `${nodeModulesPath}/${NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME}/${file}`);
-const srcFilePath = (file: string) => path.resolve(`${process.cwd()}/../src/${file}`);
+const srcFilePath = (file: string) => path.resolve(`${process.cwd()}/${targetAppDirectory}/${file}`);
 
 export const bundleNpm = () => {
   createNodeModules();
 };
-
+  
 const createNodeModules = () => {
   copyPackageJson();
 
