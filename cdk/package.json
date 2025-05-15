@@ -8,7 +8,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "predeploy-lambda": "cd .. && npm run aws-lambda:build",
+    "deploy-lambda": "cdk -a \"npx ts-node --prefer-ts-exts bin/lambda.ts\" deploy --all --profile produser"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

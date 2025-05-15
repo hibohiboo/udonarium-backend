@@ -5,11 +5,10 @@ import * as cdk from 'aws-cdk-lib';
 import * as dotenv from 'dotenv';
 import { UdonariumBackendStack } from '../lib/lambda-stack';
 
-dotenv.config({ path: './.env.local' });
+dotenv.config({ path: './.env' });
 
 const envList = [
   'PROJECT_ID',
-  'SSM_PARAM_KEY_LAYER_VERSIONS_ARN',
   'SKYWAY_APP_ID',
   'SKYWAY_SECRET',
   'SKYWAY_UDONARIUM_LOBBY_SIZE',
@@ -27,8 +26,7 @@ const env = {
 };
 
 new UdonariumBackendStack(app, `${processEnv.PROJECT_ID}-UdonariumBackendStack`, {
-  ssmLambdaLayerKey: `${processEnv.SSM_PARAM_KEY_LAYER_VERSIONS_ARN}-${processEnv.PROJECT_ID}`,
-  env,
+   env,
   projectId: processEnv.PROJECT_ID,
   environment: {
     SKYWAY_APP_ID: processEnv.SKYWAY_APP_ID,
