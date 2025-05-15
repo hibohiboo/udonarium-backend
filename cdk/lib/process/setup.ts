@@ -2,15 +2,15 @@
 import * as childProcess from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import { TARGET_APP_DIRECTORY } from '../../constants/lambda';
 
 const nodeModulesPath = './bundle-node_modules';
 export const NODE_LAMBDA_LAYER_DIR = path.resolve(process.cwd(), nodeModulesPath);
 
-const targetAppDirectory = '../packages/backend/aws-lambda';
 const NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME = `nodejs`;
 const runtimeDirName = path.resolve(process.cwd(), `${nodeModulesPath}/${NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME}`);
 const distFilePath = (file: string) => path.resolve(process.cwd(), `${nodeModulesPath}/${NODE_LAMBDA_LAYER_RUNTIME_DIR_NAME}/${file}`);
-const srcFilePath = (file: string) => path.resolve(`${process.cwd()}/${targetAppDirectory}/${file}`);
+const srcFilePath = (file: string) => path.resolve(`${process.cwd()}/${TARGET_APP_DIRECTORY}/${file}`);
 
 export const bundleNpm = () => {
   createNodeModules();
