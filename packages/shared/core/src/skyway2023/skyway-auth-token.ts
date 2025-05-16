@@ -3,6 +3,8 @@ import { Base64Url } from '../util/base64url';
 import { CryptoUtil } from '../util/crypto-util';
 import { UUID } from '../util/uuid';
 
+type ChannelName = string;
+
 export namespace SkyWayAuthToken {
   /**
    * SkyWayAuthTokenを生成.
@@ -26,26 +28,12 @@ export namespace SkyWayAuthToken {
     channelName: string, peerId: string,
     jti: string = UUID.randomV4(), iat: number = Math.floor(Date.now() / 1000)
   ): Promise<string> {
-    const lobbyChannels: ChannelScope[] = [];
-    lobbyChannels.push({
-      name: `udonarium-lobby-\*-of-${lobbySize}`,
-      actions: ['read', 'create'],
-      members: [
-        {
-          name: peerId,
-          actions: ['write'],
-          publication: {
-            actions: [],
-          },
-          subscription: {
-            actions: [],
-          },
-        },
-      ],
-    });
+    if (channelName.startsWith('udonarium-lobby-') || channelName.includes('*') || peerId.includes('*')) {
+      throw new Error('Invalid Argument');
+    }
 
-    const roomChannels: ChannelScope[] = [];
-    roomChannels.push({
+    const channelMap: Map<ChannelName, ChannelScope> = new Map();
+    channelMap.set(channelName, {
       name: channelName,
       actions: ['read', 'create'],
       members: [
@@ -62,12 +50,18 @@ export namespace SkyWayAuthToken {
         {
           name: '*',
           actions: ['signal'],
-          publication: {
-            actions: [],
-          },
-          subscription: {
-            actions: [],
-          },
+        },
+      ],
+    });
+
+    const lobbyName = `udonarium-lobby-*-of-${lobbySize}`;
+    channelMap.set(lobbyName, {
+      name: lobbyName,
+      actions: ['read', 'create'],
+      members: [
+        {
+          name: peerId,
+          actions: ['write'],
         },
       ],
     });
@@ -79,7 +73,7 @@ export namespace SkyWayAuthToken {
         id: appId,
         turn: true,
         actions: ['read'],
-        channels: lobbyChannels.concat(roomChannels),
+        channels: Array.from(channelMap.values()),
       }
     };
 

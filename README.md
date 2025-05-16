@@ -42,13 +42,13 @@ Workerの設定ページからユドナリウムバックエンドで使用す�
 [SkyWay][SkyWay-url]のアカウントでアプリケーション作成し、必要な情報を取得してください。
 
 - `SKYWAY_APP_ID`  
-[SkyWay][SkyWay-url]から発行されたアプリケーションID。
+SkyWayから発行されたアプリケーションID。
 
 - `SKYWAY_SECRET`  
-[SkyWay][SkyWay-url]から発行されたシークレットキー。
+SkyWayから発行されたシークレットキー。
 
 - `ACCESS_CONTROL_ALLOW_ORIGIN`  
-このWeb APIを利用する[ユドナリウム][udonarium-repo]のOrigin（URL）。設定したOrigin以外からのAPIリクエストは拒否されます。
+このWeb APIを利用するユドナリウムのOrigin（URL）。設定したOrigin以外からのAPIリクエストは拒否されます。
 
 ```ini
 # Example
